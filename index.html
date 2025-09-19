@@ -394,7 +394,7 @@ let isAdminLoggedIn = false;
 function toggleAdminPanel() {
   if (!isAdminLoggedIn) {
     const password = prompt('Enter admin password:');
-    if (password === '0102cheryarta') {
+    if (password === 'Cheryarta01') {
       isAdminLoggedIn = true;
       // sembunyikan semua section biasa
       document.querySelectorAll('.main-sections').forEach(sec => sec.classList.add('hidden'));
