@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Booking Car Service - Chery Arta Bekasi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <!-- SheetJS (xlsx) CDN -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <style>
+  body { font-family: 'Arial', sans-serif; }
+  .hero-bg { background-color: #1e3a8a; }
+  .fade-in { animation: fadeIn 2s; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .card-hover { transition: transform 0.3s; }
+  .card-hover:hover { transform: translateY(-5px); }
+  #adminToggleBtn, #adminToggleBtnMobile { cursor: pointer; }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-2 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex flex-col items-center">
+        <img
+          src="https://www.pinclipart.com/picdir/big/82-823215_chery-logo-png-chery-clipart.png"
+          alt="Chery logo"
+          class="h-12 mr-3"
+          onerror="this.src='https://www.carlogos.org/logo/Chery-logo-2013-2560x1440.png'"
+        >
+      </div>
+      <nav class="hidden md:flex space-x-6">
+        <a href="#home" class="hover:text-yellow-300 transition">Home</a>
+        <a href="#services" class="hover:text-yellow-300 transition">Services</a>
+        <a href="#booking" class="hover:text-yellow-300 transition">Book Service</a>
+        <a href="#about" class="hover:text-yellow-300 transition">About</a>
+        <a href="#contact" class="hover:text-yellow-300 transition">Contact</a>
+        <button
+          id="adminToggleBtn"
+          class="ml-4 bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 transition"
+          title="Admin Panel"
+          aria-label="Toggle Admin Panel"
+        >
+          Admin Panel
+        </button>
+      </nav>
+      <button class="md:hidden" onclick="toggleMenu()">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+    </div>
+    <nav id="mobile-menu" class="md:hidden mt-4 space-y-2 hidden">
+      <a href="#home" class="block hover:text-yellow-300">Home</a>
+      <a href="#services" class="block hover:text-yellow-300">Services</a>
+      <a href="#booking" class="block hover:text-yellow-300">Book Service</a>
+      <a href="#about" class="block hover:text-yellow-300">About</a>
+      <a href="#contact" class="block hover:text-yellow-300">Contact</a>
+      <button
+        id="adminToggleBtnMobile"
+        class="w-full bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 transition mt-2"
+        title="Admin Panel"
+        aria-label="Toggle Admin Panel"
+      >
+        Admin Panel
+      </button>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero-bg text-white py-20 main-sections">
+    <div class="container mx-auto text-center fade-in">
+      <h2 class="text-4xl md:text-6xl font-bold mb-4">Book Your Chery Arta Service Today</h2>
+      <p class="text-lg md:text-xl mb-8">Expert maintenance and repair for your Chery Arta vehicles in Bekasi. Hassle-free booking with top-notch service.</p>
+      <a href="#booking" class="bg-yellow-500 text-black px-8 py-4 rounded-full text-lg font-semibold hover:bg-yellow-600 transition">Book Now</a>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="py-20 bg-white main-sections">
+    <div class="container mx-auto text-center">
+      <h3 class="text-3xl font-bold mb-10">Our Services</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white shadow-lg rounded-lg p-6 card-hover">
+          <img src="https://sm.mashable.com/t/mashable_id/photo/default/bengkel-siaga-chery-1_2dtr.1248.jpg" class="mb-4 rounded">
+          <h4 class="text-xl font-bold mb-2">Service Berkala</h4>
+          <p>Perawatan rutin sesuai jarak tempuh atau waktu tertentu untuk menjaga kondisi mobil tetap prima.</p>
+        </div>
+        <div class="bg-white shadow-lg rounded-lg p-6 card-hover">
+          <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8c76d00d-65d4-48b6-b36b-443377d930da.png" class="mb-4 rounded">
+          <h4 class="text-xl font-bold mb-2">Mesin & Pelumas</h4>
+          <p>Fokus pada performa mesin dan sistem pelumasan agar tetap efisien & awet.</p>
+        </div>
+        <div class="bg-white shadow-lg rounded-lg p-6 card-hover">
+          <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f8cfce99-f5c3-408b-a26b-3c06c5af329a.png" class="mb-4 rounded">
+          <h4 class="text-xl font-bold mb-2">Rem & Kaki-kaki</h4>
+          <p>Menjaga keamanan berkendara dan kenyamanan mobil saat jalan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking -->
+  <section id="booking" class="py-20 bg-gray-50 main-sections">
+    <div class="container mx-auto max-w-2xl">
+      <h3 class="text-3xl font-bold text-center mb-10">Book Your Service</h3>
+      <form class="bg-white shadow-lg rounded-lg p-8" onsubmit="return handleBooking(event)">
+        <!-- form fields sama dengan sebelumnya -->
+        <div class="mb-4"><label>Name</label><input type="text" id="name" required class="w-full border rounded-lg p-2"></div>
+        <div class="mb-4"><label>Plat Nomor</label><input type="text" id="Plat Nomor" required class="w-full border rounded-lg p-2"></div>
+        <div class="mb-4"><label>Phone</label><input type="tel" id="phone" required class="w-full border rounded-lg p-2"></div>
+  <div class="mb-4">
+  <label class="block text-gray-700 mb-2" for="model">Type Mobil</label>
+  <select id="model" required class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300">
+    <option value="">Select Model</option>
+    <option value="J6">J6</option>
+    <option value="E5">E5</option>
+    <option value="Omoda 5 GT">Omoda 5 GT</option>
+    <option value="C5">C5</option>
+    <option value="Tiggo 8 CSH">Tiggo 8 CSH</option>
+    <option value="Tiggo 8">Tiggo 8</option>
+    <option value="Tiggo Cross">Tiggo Cross</option>
+    <option value="Tiggo 5X">Tiggo 5X</option>
+    <option value="Tiggo 8 Pro Max">Tiggo 8 Pro Max</option>
+  </select>
+</div>
+        <div class="mb-4">
+          <label class="block text-gray-700 mb-2" for="service">Service Type</label>
+          <select id="service" required class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300">
+            <option value="">Select Service</option>
+            <optgroup label="Service Berkala">
+    <option value="servis_ringan">Servis Ringan (10.000 km / 6 bulan)</option>
+    <option value="servis_sedang">Servis Sedang (20.000 km / 12 bulan)</option>
+    <option value="servis_besar">Servis Besar (40.000 km / 2 tahun)</option>
+    <option value="general_checkup">General Check Up / Diagnostic</option>
+  </optgroup>
+
+  <optgroup label="Mesin & Pelumas">
+    <option value="ganti_oli">Ganti Oli Mesin + Filter Oli</option>
+    <option value="tune_up">Tune Up Mesin</option>
+    <option value="pendingin">Servis Sistem Pendingin</option>
+    <option value="transmisi">Servis Transmisi (Manual/Automatic)</option>
+  </optgroup>
+
+  <optgroup label="Rem & Kaki-kaki">
+    <option value="rem">Servis Rem</option>
+    <option value="suspensi">Servis Suspensi</option>
+    <option value="ban">Servis Ban (Rotasi, Spooring, Balancing)</option>
+  </optgroup>
+
+  <optgroup label="Kelistrikan & Aki">
+    <option value="aki">Servis Aki</option>
+    <option value="kelistrikan">Servis Kelistrikan</option>
+  </optgroup>
+
+  <optgroup label="AC & Kenyamanan">
+    <option value="ac">Servis AC</option>
+    <option value="perawatan_kabin">Perawatan Kabin</option>
+  </optgroup>
+
+  <optgroup label="Body & Eksterior">
+    <option value="body_repair">Body Repair</option>
+    <option value="cat">Cat Ulang</option>
+    <option value="polish">Poles & Detailing</option>
+  </optgroup>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="mb-4"><label>Date</label><input type="date" id="date" required class="w-full border rounded-lg p-2"></div>
+        <div class="mb-4"><label>Time</label><input type="time" id="time" required class="w-full border rounded-lg p-2"></div>
+        <div class="mb-4"><label>Keluhan</label><textarea id="Keluhan" class="w-full border rounded-lg p-2"></textarea></div>
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg">Submit Booking</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Admin Panel -->
+  <section id="adminPanel" class="py-20 bg-gray-100 hidden">
+    <div class="container mx-auto max-w-5xl">
+      <h3 class="text-3xl font-bold text-center mb-10">Admin Panel - Booking List</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow rounded-lg">
+          <thead class="bg-blue-600 text-white">
+            <tr><th>Date</th><th>Time</th><th>Name</th><th>Model</th><th>Plat Nomor</th><th>Service</th><th>Keluhan</th><th>Phone</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="bookingListBody"></tbody>
+        </table>
+      </div>
+      <div class="text-center mt-6 space-x-3">
+        <button id="exportBtn" class="bg-green-600 text-white px-6 py-2 rounded">Export to Excel</button>
+        <button id="adminLogoutBtn" class="bg-red-600 text-white px-6 py-2 rounded">Logout</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-20 bg-white main-sections">
+    <div class="container mx-auto flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2">
+        <img src="https://www.chery.my/wp-content/uploads/2024/10/Chery-Glenmarie-facade-scaled.jpg" class="rounded-lg">
+      </div>
+      <div class="md:w-1/2 md:pl-10 mt-6 md:mt-0">
+        <h3 class="text-3xl font-bold mb-4">About Chery Arta Bekasi</h3>
+        <p class="text-lg mb-4">
+          Berlokasi di jantung kota Bekasi, dealer kami spesialis kendaraan Chery Arta.
+Kami menawarkan layanan mobil komprehensif yang memastikan kendaraan Anda dalam kondisi prima.
+Tim teknisi tersertifikasi kami menggunakan teknologi terkini untuk hasil terbaik.
+        </p>
+        <p class="text-lg">
+          Kunjungi kami di Jl. Jend. Sudirman No.1, Kranji, Kec. Bekasi. Open Monday to Friday, 8 AM - 8 PM. Except Saturday Open from 8 AM - 12 PM
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 bg-gray-800 text-white main-sections">
+    <div class="container mx-auto text-center">
+      <h3 class="text-3xl font-bold mb-10">Contact Us</h3>
+      <p class="text-lg mb-4">
+        Get in touch for any inquiries or to schedule your service.
+      </p>
+      <p><i class="fas fa-phone mr-2"></i> Phone: (021) 38317201</p>
+      <p><i class="fas fa-envelope mr-2"></i> Email: service@cheryartabekasi.com</p>
+      <p><i class="fas fa-map-marker-alt mr-2"></i> Address: Jl. Jend. Sudirman No.1, Kranji, Kec. Bekasi Bar., Kota Bks, Jawa Barat, Indonesia</p>
+      <div class="mt-8">
+        <img
+          src="https://lh3.googleusercontent.com/geougc-cs/AB3l90AzUj5LDx9aQe2UQZTlkkRpBg0qluO6qV9YTtcYmB2OdlokXfJu5gAPaO6u_ZdrbczFmMxlAR_2BFJ53xEzbZi0uDWiHUZgwlVJEwn1Rg1cKfRoHEAjMKlDgjGIDpQvubZ1Avfzy0I8TDjc"
+          alt="Google Maps view of the Chery Arta Bekasi location with red pin marker on Jalan Bekasi Raya, showing surrounding roads and buildings in satellite view"
+          class="mx-auto rounded-lg"
+          onerror="this.src='https://lh3.googleusercontent.com/geougc-cs/AB3l90AzUj5LDx9aQe2UQZTlkkRpBg0qluO6qV9YTtcYmB2OdlokXfJu5gAPaO6u_ZdrbczFmMxlAR_2BFJ53xEzbZi0uDWiHUZgwlVJEwn1Rg1cKfRoHEAjMKlDgjGIDpQvubZ1Avfzy0I8TDjc'"
+          >
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-blue-600 text-white py-4 text-center main-sections">
+    <p>&copy; 2023 Chery Arta Bekasi Car Service. All rights reserved.</p>
+  </footer>
+
+  <!-- Firebase Integration -->
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+  import { getDatabase, ref, push, set, remove, onValue, get, child, }
+  from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBMJp4ktfl-bZaMDNuAhvDQPGRI15X1Jk4",
+    authDomain: "chery-booking-service-e1172.firebaseapp.com",
+    databaseURL: "https://chery-booking-service-e1172-default-rtdb.firebaseio.com/",
+    projectId: "chery-booking-service-e1172",
+    storageBucket: "chery-booking-service-e1172.firebasestorage.app",
+    messagingSenderId: "854480144755",
+    appId: "1:854480144755:web:1271daecf6f97b7efd1d06",
+    measurementId: "G-HHFPYJXPH0"
+};
+
+ const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+const db = getDatabase(app);
+
+    let editMode = false;
+let editId = null;
+
+
+    async function handleBooking(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const Plat_Nomor = document.getElementById('Plat Nomor').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const model = document.getElementById('model').value;
+      const service = document.getElementById('service').value;
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      const Keluhan = document.getElementById('Keluhan').value.trim();
+
+       if (name && Plat_Nomor && phone && model && service && date && time) {
+    if (editMode && editId) {
+      // UPDATE booking
+      await set(ref(db, "bookings/" + editId), {
+        name, Plat_Nomor, phone, model, service, date, time, Keluhan
+      });
+      alert("Booking berhasil diperbarui!");
+      editMode = false;
+      editId = null;
+    } else {
+      // ADD booking baru
+      await push(ref(db, "bookings"), {
+        name, Plat_Nomor, phone, model, service, date, time, Keluhan
+      });
+      alert(`Terima kasih, ${name}! Booking berhasil disimpan.`);
+    }
+    document.querySelector("form").reset();
+    displayBookings();
+  } else {
+    alert("Harap isi semua field wajib.");
+  }
+}
+
+    function displayBookings() {
+      const tbody = document.getElementById('bookingListBody');
+      onValue(ref(db, "bookings"), (snapshot) => {
+        tbody.innerHTML = "";
+        snapshot.forEach((childSnap) => {
+          const booking = childSnap.val();
+          const id = childSnap.key;
+          const row = document.createElement("tr");
+          tbody.appendChild(row);
+          if (window.inlineEditId === id) {
+            // Inline edit mode
+            row.innerHTML = `
+  <td><input type="date" value="${booking.date}" id="edit_date_${id}" class="border rounded p-1 w-full"></td>
+  <td><input type="time" value="${booking.time}" id="edit_time_${id}" class="border rounded p-1 w-full"></td>
+  <td><input type="text" value="${booking.name}" id="edit_name_${id}" class="border rounded p-1 w-full"></td>
+  <td><input type="text" value="${booking.model}" id="edit_model_${id}" class="border rounded p-1 w-full"></td>
+  <td><input type="text" value="${booking.Plat_Nomor}" id="edit_plat_${id}" class="border rounded p-1 w-full"></td>
+  <td><input type="text" value="${booking.service}" id="edit_service_${id}" class="border rounded p-1 w-full"></td>
+  <td><input type="text" value="${booking.Keluhan || ''}" id="edit_keluhan_${id}" class="border rounded p-1 w-full"></td>
+  <td><input type="text" value="${booking.phone}" id="edit_phone_${id}" class="border rounded p-1 w-full"></td>
+  <td class="space-x-2">
+    <button onclick="saveInlineEditBooking('${id}')" class="bg-green-600 text-white px-3 py-1 rounded">Save</button>
+    <button onclick="cancelInlineEditBooking()" class="bg-gray-400 text-white px-3 py-1 rounded">Cancel</button>
+  </td>`;
+          } else {
+            row.innerHTML = `
+  <td>${booking.date}</td>
+  <td>${booking.time}</td>
+  <td>${booking.name}</td>
+  <td>${booking.model}</td>
+  <td>${booking.Plat_Nomor}</td>
+  <td>${booking.service}</td>
+  <td>${booking.Keluhan || "None"}</td>
+  <td>${booking.phone}</td>
+  <td class="space-x-2">
+    <button onclick='inlineEditBooking("${id}")'
+      class="bg-yellow-500 text-white px-3 py-1 rounded">Edit</button>
+    <button onclick="deleteBooking('${id}')"
+      class="bg-red-600 text-white px-3 py-1 rounded">Delete</button>
+  </td>`;
+          }
+        });
+      });
+    }
+
+    async function deleteBooking(id) {
+      await remove(ref(db, "bookings/" + id));
+    }
+
+    async function exportNow() {
+      const snapshot = await get(child(ref(db), "bookings"));
+      if (!snapshot.exists()) { alert("No bookings to export."); return; }
+      const bookings = [];
+      snapshot.forEach((childSnap) => {
+        const b = childSnap.val();
+        bookings.push({Name:b.name,"Plat Nomor":b.Plat_Nomor,Phone:b.phone,Model:b.model,Service:b.service,Date:b.date,Time:b.time,Keluhan:b.Keluhan});
+      });
+      const ws = XLSX.utils.json_to_sheet(bookings);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Bookings");
+      XLSX.writeFile(wb, "bookings.xlsx");
+    }
+
+    window.handleBooking = handleBooking;
+  window.displayBookings = displayBookings;
+  window.deleteBooking = deleteBooking;
+  window.editBooking = editBooking;
+
+    async function editBooking(id, booking) {
+  // isi form dengan data booking
+  document.getElementById('name').value = booking.name;
+  document.getElementById('Plat Nomor').value = booking.Plat_Nomor;
+  document.getElementById('phone').value = booking.phone;
+  document.getElementById('model').value = booking.model;
+  document.getElementById('service').value = booking.service;
+  document.getElementById('date').value = booking.date;
+  document.getElementById('time').value = booking.time;
+  document.getElementById('Keluhan').value = booking.Keluhan || "";
+
+  // set mode edit
+  editMode = true;
+  editId = id;
+
+  // buka form booking
+  document.getElementById('adminPanel').classList.add('hidden');
+  document.querySelectorAll('.main-sections').forEach(sec => sec.classList.remove('hidden'));
+  document.getElementById('booking').scrollIntoView();
+
+  alert("Silakan ubah data, lalu klik Submit untuk menyimpan perubahan.");
+}
+
+    // Admin panel toggle
+let isAdminLoggedIn = false;
+
+function toggleAdminPanel() {
+  if (!isAdminLoggedIn) {
+    const password = prompt('Enter admin password:');
+    if (password === '0102cheryarta') {
+      isAdminLoggedIn = true;
+      // sembunyikan semua section biasa
+      document.querySelectorAll('.main-sections').forEach(sec => sec.classList.add('hidden'));
+      // tampilkan admin panel
+      document.getElementById('adminPanel').classList.remove('hidden');
+      displayBookings();
+    } else {
+      alert('Incorrect password!');
+    }
+  } else {
+    // keluar dari admin
+    isAdminLoggedIn = false;
+    document.querySelectorAll('.main-sections').forEach(sec => sec.classList.remove('hidden'));
+    document.getElementById('adminPanel').classList.add('hidden');
+  }
+}
+
+// tombol
+function toggleMenu() {
+  const menu = document.getElementById("mobile-menu");
+  menu.classList.toggle("hidden");
+}
+
+// Expose toggleAdminPanel ke global scope agar event listener bisa memanggil
+// Inline edit logic
+window.inlineEditId = null;
+function inlineEditBooking(id) {
+  window.inlineEditId = id;
+  displayBookings();
+}
+function cancelInlineEditBooking() {
+  window.inlineEditId = null;
+  displayBookings();
+}
+async function saveInlineEditBooking(id) {
+  const name = document.getElementById(`edit_name_${id}`).value.trim();
+  const Plat_Nomor = document.getElementById(`edit_plat_${id}`).value.trim();
+  const phone = document.getElementById(`edit_phone_${id}`).value.trim();
+  const model = document.getElementById(`edit_model_${id}`).value.trim();
+  const service = document.getElementById(`edit_service_${id}`).value.trim();
+  const date = document.getElementById(`edit_date_${id}`).value;
+  const time = document.getElementById(`edit_time_${id}`).value;
+  const Keluhan = document.getElementById(`edit_keluhan_${id}`).value.trim();
+  if (name && Plat_Nomor && phone && model && service && date && time) {
+    await set(ref(db, "bookings/" + id), {
+      name, Plat_Nomor, phone, model, service, date, time, Keluhan
+    });
+    window.inlineEditId = null;
+    displayBookings();
+    alert("Booking berhasil diperbarui!");
+  } else {
+    alert("Harap isi semua field wajib.");
+  }
+}
+window.inlineEditBooking = inlineEditBooking;
+window.cancelInlineEditBooking = cancelInlineEditBooking;
+window.saveInlineEditBooking = saveInlineEditBooking;
+window.toggleAdminPanel = toggleAdminPanel;
+
+document.addEventListener("DOMContentLoaded", () => {
+  const adminBtn = document.getElementById('adminToggleBtn');
+  if (adminBtn) {
+    adminBtn.addEventListener('click', (e) => {
+      console.log('Admin Panel button clicked');
+      toggleAdminPanel();
+    });
+  } else {
+    console.error('adminToggleBtn not found');
+  }
+
+  const adminBtnMobile = document.getElementById('adminToggleBtnMobile');
+  if (adminBtnMobile) {
+    adminBtnMobile.addEventListener('click', (e) => {
+      console.log('Admin Panel Mobile button clicked');
+      toggleAdminPanel();
+    });
+  } else {
+    console.error('adminToggleBtnMobile not found');
+  }
+
+  const exportBtn = document.getElementById('exportBtn');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', exportNow);
+  } else {
+    console.error('exportBtn not found');
+  }
+
+  const logoutBtn = document.getElementById('adminLogoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      isAdminLoggedIn = false;
+      document.querySelectorAll('.main-sections')
+        .forEach(sec => sec.classList.remove('hidden'));
+      document.getElementById('adminPanel').classList.add('hidden');
+    });
+  } else {
+    console.error('adminLogoutBtn not found');
+  }
+});
+
+
+  </script>
+</body>
+</html>
