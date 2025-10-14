@@ -105,6 +105,56 @@
             font-size: 1.5rem;
             color: var(--chery-dark);
             cursor: pointer;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--chery-blue);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: var(--shadow-heavy);
+            z-index: 999;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .mobile-menu.show {
+            display: block;
+            max-height: 500px;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 1rem;
+        }
+
+        .mobile-menu ul li {
+            margin: 0;
+        }
+
+        .mobile-menu ul li a {
+            display: block;
+            padding: 1rem;
+            color: var(--chery-dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu ul li a:hover {
+            background: rgba(30, 58, 138, 0.1);
+            color: var(--chery-blue);
+            padding-left: 1.5rem;
         }
 
         .hero {
@@ -1087,6 +1137,10 @@
             .hero-content h1 {
                 font-size: 2rem;
             }
+
+            .admin-filters > div:first-child {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -1104,7 +1158,35 @@
                     <li><a href="#contact" class="nav-link">Contact</a></li>
                     <li><a class="nav-link" onclick="showAdminLogin()">Admin</a></li>
                 </ul>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="#home" onclick="goToHome(); closeMobileMenu()">
+                    <i class="fas fa-home"></i> Home
+                </a></li>
+                <li><a href="#facilities" onclick="closeMobileMenu()">
+                    <i class="fas fa-building"></i> Fasilitas
+                </a></li>
+                <li><a href="#booking" onclick="closeMobileMenu()">
+                    <i class="fas fa-calendar-alt"></i> Book Service
+                </a></li>
+                <li><a onclick="showCekService(); closeMobileMenu()">
+                    <i class="fas fa-search"></i> Cek Service
+                </a></li>
+                <li><a href="#about" onclick="closeMobileMenu()">
+                    <i class="fas fa-info-circle"></i> Tentang
+                </a></li>
+                <li><a href="#contact" onclick="closeMobileMenu()">
+                    <i class="fas fa-phone"></i> Contact
+                </a></li>
+                <li><a onclick="showAdminLogin(); closeMobileMenu()">
+                    <i class="fas fa-user-shield"></i> Admin
+                </a></li>
+            </ul>
         </div>
     </header>
 
@@ -1969,6 +2051,43 @@
             // Scroll ke top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
+
+        window.toggleMobileMenu = function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn i');
+            
+            if (mobileMenu.classList.contains('show')) {
+                mobileMenu.classList.remove('show');
+                menuBtn.classList.remove('fa-times');
+                menuBtn.classList.add('fa-bars');
+            } else {
+                mobileMenu.classList.add('show');
+                menuBtn.classList.remove('fa-bars');
+                menuBtn.classList.add('fa-times');
+            }
+        };
+
+        window.closeMobileMenu = function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn i');
+            mobileMenu.classList.remove('show');
+            menuBtn.classList.remove('fa-times');
+            menuBtn.classList.add('fa-bars');
+        };
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            
+            if (mobileMenu && menuBtn) {
+                const isClickInside = mobileMenu.contains(event.target) || menuBtn.contains(event.target);
+                
+                if (!isClickInside && mobileMenu.classList.contains('show')) {
+                    closeMobileMenu();
+                }
+            }
+        });
 
         window.searchBooking = async function() {
             const searchPlat = document.getElementById('searchPlat').value.trim().toUpperCase();
