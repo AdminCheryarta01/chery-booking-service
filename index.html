@@ -1297,11 +1297,11 @@
                     <div class="form-group">
                         <label class="form-label">NO POLISI</label>
                         <div class="plat-nomor-container">
-                            <input type="text" id="plat_kode" maxlength="2" placeholder="B" class="plat-input plat-part-a" oninput="handlePlatInput(this, 'letters')" required>
+                            <input type="text" id="plat_kode" maxlength="1" placeholder="B" class="plat-input plat-part-a" oninput="handlePlatInput(this, 'letters')" required>
                             <span class="separator">-</span>
                             <input type="text" id="plat_angka" maxlength="4" placeholder="1234" class="plat-input plat-part-b" oninput="handlePlatInput(this, 'numbers')" required>
                             <span class="separator">-</span>
-                            <input type="text" id="plat_huruf" maxlength="3" placeholder="CD" class="plat-input plat-part-c" oninput="handlePlatInput(this, 'letters')" required>
+                            <input type="text" id="plat_huruf" maxlength="3" placeholder="ABC" class="plat-input plat-part-c" oninput="handlePlatInput(this, 'letters')" required>
                         </div>
                     </div>
 
@@ -1358,10 +1358,22 @@
                         <label class="form-label">Waktu Booking</label>
                         <div style="position: relative;">
                             <i class="fas fa-clock form-icon"></i>
-                            <input type="time" class="form-input" id="time" required>
+                            <select class="form-input" id="time" required>
+                                <option value="">Pilih Waktu</option>
+                                <option value="08:00">08:00</option>
+                                <option value="08:30">08:30</option>
+                                <option value="09:00">09:00</option>
+                                <option value="09:30">09:30</option>
+                                <option value="10:00">10:00</option>
+                                <option value="10:30">10:30</option>
+                                <option value="11:00">11:00</option>
+                                <option value="11:30">11:30</option>
+                                <option value="13:00">13:00</option>
+                                <option value="13:30">13:30</option>
+                                <option value="14:00">14:00</option>
+                            </select>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label class="form-label">Catatan Tambahan</label>
                         <div style="position: relative;">
@@ -1455,7 +1467,8 @@
                     <i class="fas fa-envelope"></i>
                 </div>
                 <h3>Email</h3>
-                <p>info@cheryarta.com<br>service@cheryarta.com</p>
+                <p>Cheryaftersales.10254719</p>
+                    <p>@gmail.com</p>
             </div>
 
             <div class="contact-card">
@@ -1703,13 +1716,13 @@
     </footer>
 
     <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
         import { getDatabase, ref, onValue, get, child, remove, set } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyBMJp4ktfl-bZaMDNuAhvDQPGRI15X1Jk4",
             authDomain: "chery-booking-service-e1172.firebaseapp.com",
-  databaseURL: "https://chery-booking-service-e1172-default-rtdb.firebaseio.com/",            
+            databaseURL: "https://chery-booking-service-e1172-default-rtdb.firebaseio.com/",
             projectId: "chery-booking-service-e1172",
             storageBucket: "chery-booking-service-e1172.firebasestorage.app",
             messagingSenderId: "854480144755",
@@ -1852,13 +1865,32 @@
                 return false;
             }
 
-            const bookingData = { name, Plat_Nomor, phone, model, service, date, time, Keluhan, status: 'Successful' };
-
+            // Cek ketersediaan waktu (maksimal 2 booking per jam)
             try {
+                const snapshot = await get(child(ref(db), "bookings"));
+                let bookingCount = 0;
+                
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnap) => {
+                        const booking = childSnap.val();
+                        if (booking.date === date && booking.time === time) {
+                            bookingCount++;
+                        }
+                    });
+                }
+
+                if (bookingCount >= 2) {
+                    alert(`Maaf, waktu ${time} pada tanggal ${date} sudah penuh!\n\nMaksimal 2 booking per jam.\nSilakan pilih waktu lain.`);
+                    return false;
+                }
+
+                const bookingData = { name, Plat_Nomor, phone, model, service, date, time, Keluhan, status: 'Successful' };
+
                 const newBookingRef = ref(db, `bookings/${Date.now()}`);
                 await set(newBookingRef, bookingData);
-                alert("Booking submitted successfully!");
+                alert(`Booking berhasil!\n\nWaktu: ${time}\nTanggal: ${date}\n\nSlot tersisa: ${1 - bookingCount} booking lagi untuk jam ini.`);
                 event.target.reset();
+                
             } catch (error) {
                 console.error("Error submitting booking:", error);
                 alert("Failed to submit booking. Please try again.");
@@ -2080,12 +2112,11 @@
             const mobileMenu = document.getElementById('mobileMenu');
             const menuBtn = document.querySelector('.mobile-menu-btn');
             
-            if (mobileMenu && menuBtn) {
-                const isClickInside = mobileMenu.contains(event.target) || menuBtn.contains(event.target);
-                
-                if (!isClickInside && mobileMenu.classList.contains('show')) {
-                    closeMobileMenu();
-                }
+            if (mobileMenu && menuBtn && 
+                !mobileMenu.contains(event.target) && 
+                !menuBtn.contains(event.target) &&
+                mobileMenu.classList.contains('show')) {
+                closeMobileMenu();
             }
         });
 
