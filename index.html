@@ -40,6 +40,44 @@
             scroll-behavior: smooth;
         }
 
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-successful {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-in-progress {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-completed {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .header {
             position: fixed;
             top: 0;
@@ -437,7 +475,6 @@
             height: auto;
         }
 
-        /* Custom Select Dropdown Styles */
         .custom-select-wrapper {
             position: relative;
             width: 100%;
@@ -546,7 +583,6 @@
             pointer-events: none;
         }
 
-        /* Modal Preview untuk Gambar Fasilitas */
         .image-preview-modal {
             display: none;
             position: fixed;
@@ -654,20 +690,6 @@
 
         .facility-card {
             cursor: pointer;
-        }
-
-        #service option[value^="Tiggo"],
-        #service option[value^="EV_"],
-        #service option[value^="CSH_"],
-        #editService option[value^="Tiggo"],
-        #editService option[value^="EV_"],
-        #editService option[value^="CSH_"] {
-            background-color: #1e3a8a;
-            color: white;
-            padding: 0.75rem;
-            white-space: normal;
-            line-height: 1.5;
-            min-height: 60px;
         }
 
         .form-input:focus, select:focus {
@@ -1716,21 +1738,26 @@
     </footer>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
+        import { getDatabase, ref, onValue, get, child, remove, set } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCpmHGOa04IXtzTSBs4k9r6hGl1skBAHUk",
-    authDomain: "chery-arta-booking-service.firebaseapp.com",
-    projectId: "chery-arta-booking-service",
-    storageBucket: "chery-arta-booking-service.firebasestorage.app",
-    messagingSenderId: "808532000775",
-    appId: "1:808532000775:web:048e11e538b6196e03aaa2",
-    measurementId: "G-WJ2XFET4PJ"
-  };
+        // FIREBASE CONFIGURATION - UPDATED
+        const firebaseConfig = {
+            apiKey: "AIzaSyCpmHGOa04IXtzTSBs4k9r6hGl1skBAHUk",
+            authDomain: "chery-arta-booking-service.firebaseapp.com",
+            databaseURL: "https://chery-arta-booking-service-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "chery-arta-booking-service",
+            storageBucket: "chery-arta-booking-service.firebasestorage.app",
+            messagingSenderId: "808532000775",
+            appId: "1:808532000775:web:048e11e538b6196e03aaa2",
+            measurementId: "G-WJ2XFET4PJ"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+
+        console.log('✅ Firebase initialized with new configuration');
+        console.log('📊 Database URL:', firebaseConfig.databaseURL);
 
         let allBookings = [];
         let filteredBookings = [];
@@ -1742,38 +1769,38 @@
         const facilityData = [
             {
                 img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/frontside.webp",
-                title: "Ruang Tunggu Premium",
-                desc: "Ruang tunggu eksklusif dengan sofa nyaman dan mural pemandangan pegunungan"
-            },
-            {
-                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/IMG-20250919-WA0014.jpg",
-                title: "Ruang Konsultasi",
-                desc: "Ruang meeting modern untuk diskusi dan konsultasi mengenai perawatan kendaraan"
-            },
-            {
-                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/IMG-20250919-WA0015.jpg",
-                title: "Area Diskusi Santai",
-                desc: "Area santai dengan meja bulat yang nyaman untuk berdiskusi dengan keluarga"
-            },
-            {
-                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/IMG-20250919-WA0019.jpg",
                 title: "Customer Service Center",
                 desc: "Meja pelayanan customer service yang profesional"
             },
             {
-                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/IMG-20250919-WA0018.jpg",
+                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/IMG-20250919-WA0014.jpg",
+                title: "Showroom Chery",
+                desc: "Showroom eksklusif menampilkan koleksi lengkap kendaraan Chery"
+            },
+            {
+                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/IMG-20250919-WA0015.jpg",
+                title: "Ruang Tunggu Premium",
+                desc: "Ruang tunggu eksklusif dengan sofa nyaman dan mural pemandangan pegunungan"
+            },
+            {
+                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/IMG-20250919-WA0019.jpg",
                 title: "Kids Play Area",
                 desc: "Area bermain anak yang aman dan menyenangkan"
             },
             {
-                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/fasilitas2.webp",
+                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/IMG-20250919-WA0018.jpg",
                 title: "Workshop Modern",
                 desc: "Bengkel dengan teknologi terdepan dan peralatan canggih"
             },
             {
+                img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/fasilitas2.webp",
+                title: "Area Diskusi Santai",
+                desc: "Area santai dengan meja bulat yang nyaman untuk berdiskusi dengan keluarga"
+            },
+            {
                 img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/fasilitas3.webp",
-                title: "Showroom Chery",
-                desc: "Showroom eksklusif menampilkan koleksi lengkap kendaraan Chery"
+                title: "Ruang Konsultasi",
+                desc: "Ruang meeting modern untuk diskusi dan konsultasi mengenai perawatan kendaraan"
             },
             {
                 img: "https://raw.githubusercontent.com/AdminCheryarta01/chery-booking-service/refs/heads/main/img/fasilitas4.webp",
@@ -1841,7 +1868,6 @@
                 return false;
             }
 
-            // Validasi format plat nomor
             if (!/^[A-Z]{1,2}$/.test(plat_kode)) {
                 alert('Kode wilayah harus berupa 1-2 huruf (contoh: B atau AB)');
                 return false;
@@ -1857,14 +1883,12 @@
                 return false;
             }
 
-            // Validasi nomor telepon
             const cleanPhone = phone.replace(/[-\s]/g, '');
             if (!/^(\+62|62|0)[0-9]{9,13}$/.test(cleanPhone)) {
                 alert('Nomor telepon tidak valid. Format: 08123456789 atau +628123456789');
                 return false;
             }
 
-            // Cek ketersediaan waktu (maksimal 2 booking per jam)
             try {
                 const snapshot = await get(child(ref(db), "bookings"));
                 let bookingCount = 0;
@@ -1897,17 +1921,13 @@
             return false;
         };
 
-        // Handle plat nomor input dengan validasi
         window.handlePlatInput = function(input, type) {
             if (type === 'letters') {
-                // Hanya izinkan huruf A-Z
                 input.value = input.value.replace(/[^A-Za-z]/g, '').toUpperCase();
             } else if (type === 'numbers') {
-                // Hanya izinkan angka 0-9
                 input.value = input.value.replace(/[^0-9]/g, '');
             }
 
-            // Auto-tab ke field berikutnya
             if (input.value.length >= input.maxLength) {
                 const inputs = ['plat_kode', 'plat_angka', 'plat_huruf'];
                 const currentIndex = inputs.indexOf(input.id);
@@ -1918,20 +1938,15 @@
             }
         };
 
-        // Handle phone input - hanya angka
         window.handlePhoneInput = function(input) {
-            // Hanya izinkan angka 0-9 dan tanda + di awal
             let value = input.value.replace(/[^\d+]/g, '');
             
-            // Pastikan + hanya di awal
             if (value.includes('+')) {
                 const parts = value.split('+');
                 value = '+' + parts.join('').replace(/\+/g, '');
             }
             
-            // Format nomor telepon Indonesia
             if (value.startsWith('0')) {
-                // Format: 0812-3456-789
                 if (value.length > 4) {
                     value = value.slice(0, 4) + '-' + value.slice(4);
                 }
@@ -1939,7 +1954,6 @@
                     value = value.slice(0, 9) + '-' + value.slice(9);
                 }
             } else if (value.startsWith('+62')) {
-                // Format: +62-812-3456-789
                 if (value.length > 3) {
                     value = value.slice(0, 3) + '-' + value.slice(3);
                 }
@@ -1950,7 +1964,6 @@
                     value = value.slice(0, 12) + '-' + value.slice(12);
                 }
             } else if (value.startsWith('62')) {
-                // Format: 62-812-3456-789
                 if (value.length > 2) {
                     value = value.slice(0, 2) + '-' + value.slice(2);
                 }
@@ -1965,7 +1978,6 @@
             input.value = value;
         };
 
-        // Admin functions
         window.showAdminLogin = function() {
             document.getElementById('loginModal').classList.add('show');
         };
@@ -2021,21 +2033,15 @@
         window.editBooking = function(id, booking) {
             editingBookingId = id;
             document.getElementById('editName').value = booking.name || '';
-            
-            // Parse plat nomor dengan format B-1234-CD
-            const platParts = (booking.Plat_Nomor || '').split('-');
             document.getElementById('editPlat').value = booking.Plat_Nomor || '';
-            
             document.getElementById('editPhone').value = booking.phone || '';
             document.getElementById('editModel').value = booking.model || '';
             
-            // Set custom dropdown value
             const editServiceDropdown = document.getElementById('editServiceDropdown');
             const editServiceTrigger = editServiceDropdown.querySelector('.custom-select-trigger');
             const editServiceHidden = document.getElementById('editService');
             const editOptions = editServiceDropdown.querySelectorAll('.custom-option');
             
-            // Find and set selected option
             editOptions.forEach(option => {
                 option.classList.remove('selected');
                 if (option.getAttribute('data-value') === booking.service) {
@@ -2069,17 +2075,10 @@
         };
 
         window.goToHome = function() {
-            // Sembunyikan semua panel khusus
             document.getElementById('cekService').classList.remove('show');
             document.getElementById('adminPanel').classList.remove('show');
-            
-            // Tampilkan semua section utama
             document.querySelectorAll('.hero, .facilities, .booking, .about, .contact').forEach(el => el.style.display = 'block');
-            
-            // Hapus state dari sessionStorage
             sessionStorage.removeItem('currentPage');
-            
-            // Scroll ke top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
@@ -2106,7 +2105,6 @@
             menuBtn.classList.add('fa-bars');
         };
 
-        // Close mobile menu when clicking outside
         document.addEventListener('click', function(event) {
             const mobileMenu = document.getElementById('mobileMenu');
             const menuBtn = document.querySelector('.mobile-menu-btn');
@@ -2160,12 +2158,10 @@
                 return;
             }
             
-            // Tambahkan animasi rotasi
             icon.style.animation = 'spin 1s linear infinite';
             refreshBtn.disabled = true;
             
             try {
-                // Reload data dari Firebase
                 const snapshot = await get(child(ref(db), "bookings"));
                 const bookings = [];
                 
@@ -2184,7 +2180,6 @@
                 
                 displaySearchResults(bookings, serviceTableBody, serviceTable, noDataMessage);
                 
-                // Hentikan animasi setelah 1 detik
                 setTimeout(() => {
                     icon.style.animation = '';
                     refreshBtn.disabled = false;
@@ -2214,7 +2209,6 @@
             bookings.forEach(booking => {
                 const row = document.createElement('tr');
                 
-                // Tentukan class status untuk Cek Service
                 let statusClass = 'status-successful';
                 const status = booking.status || 'Successful';
                 
@@ -2247,7 +2241,6 @@
                     });
                 }
                 
-                // Apply filters if any
                 applyFilters();
             });
         };
@@ -2259,16 +2252,13 @@
             const dateTo = document.getElementById('filterDateTo')?.value || '';
             
             filteredBookings = allBookings.filter(booking => {
-                // Filter by search text (name or plat nomor)
                 const matchSearch = !searchText || 
                     (booking.name && booking.name.toLowerCase().includes(searchText)) ||
                     (booking.Plat_Nomor && booking.Plat_Nomor.toLowerCase().includes(searchText));
                 
-                // Filter by status
                 const matchStatus = !statusFilter || 
                     (booking.status || 'Successful') === statusFilter;
                 
-                // Filter by date range
                 const bookingDate = booking.date || '';
                 const matchDateFrom = !dateFrom || bookingDate >= dateFrom;
                 const matchDateTo = !dateTo || bookingDate <= dateTo;
@@ -2309,7 +2299,6 @@
             bookingsToDisplay.forEach((booking) => {
                 const row = document.createElement("tr");
                 
-                // Tentukan class status
                 let statusClass = 'status-successful';
                 const status = booking.status || 'Successful';
                 
@@ -2345,14 +2334,11 @@
             const refreshBtn = event.target.closest('button');
             const icon = refreshBtn.querySelector('i');
             
-            // Tambahkan animasi rotasi
             icon.style.animation = 'spin 1s linear infinite';
             refreshBtn.disabled = true;
             
-            // Reload data dari Firebase
             window.displayBookings();
             
-            // Hentikan animasi setelah 1 detik
             setTimeout(() => {
                 icon.style.animation = '';
                 refreshBtn.disabled = false;
@@ -2379,7 +2365,6 @@
                     return;
                 }
                 
-                // Use filtered bookings if filters are applied
                 const bookingsToExport = filteredBookings.length > 0 || 
                     document.getElementById('filterSearch')?.value || 
                     document.getElementById('filterStatus')?.value ||
@@ -2419,10 +2404,8 @@
 
         window.exportToGoogleSheets = async function() {
             try {
-                // Tentukan data yang akan diekspor berdasarkan filter
                 let bookingsToExport = [];
                 
-                // Cek apakah ada filter yang aktif
                 const hasActiveFilter = 
                     document.getElementById('filterSearch')?.value || 
                     document.getElementById('filterStatus')?.value ||
@@ -2440,7 +2423,6 @@
                     return;
                 }
                 
-                // Prepare data dengan format TSV (Tab Separated Values)
                 const headers = ['Date', 'Time', 'Name', 'Model', 'Plat Nomor', 'Service', 'Keluhan', 'Phone'];
                 const rows = [headers];
                 
@@ -2457,17 +2439,13 @@
                     ]);
                 });
                 
-                // Convert to TSV (Tab-separated) untuk paste yang rapi
                 const tsvContent = rows.map(row => row.join('\t')).join('\n');
                 
-                // Copy to clipboard
                 try {
                     await navigator.clipboard.writeText(tsvContent);
                     
-                    // Open Google Sheets langsung
                     window.open('https://sheets.google.com/create', '_blank');
                     
-                    // Show success message
                     const message = hasActiveFilter 
                         ? `✓ Data filter berhasil disalin!\n\n📊 ${bookingsToExport.length} booking(s)\n🚀 Google Sheets dibuka otomatis\n\n📋 Langkah selanjutnya:\n1. Klik cell A1 di Google Sheets\n2. Tekan Ctrl+V (Windows) atau Cmd+V (Mac)\n3. Data akan tersusun rapi dalam kolom!\n4. Klik File > Save untuk menyimpan\n\n✨ Selesai! Data sudah ada di spreadsheet.`
                         : `✓ Semua data berhasil disalin!\n\n📊 ${bookingsToExport.length} booking(s)\n🚀 Google Sheets dibuka otomatis\n\n📋 Langkah selanjutnya:\n1. Klik cell A1 di Google Sheets\n2. Tekan Ctrl+V (Windows) atau Cmd+V (Mac)\n3. Data akan tersusun rapi dalam kolom!\n4. Klik File > Save untuk menyimpan\n\n✨ Selesai! Data sudah ada di spreadsheet.`;
@@ -2487,33 +2465,6 @@
             }
         };
 
-        function exportAsExcelFallback(bookingsToExport, hasActiveFilter) {
-            const exportData = bookingsToExport.map(booking => ({
-                'Date': booking.date || '',
-                'Time': booking.time || '',
-                'Name': booking.name || '',
-                'Model': booking.model || '',
-                'Plat Nomor': booking.Plat_Nomor || '',
-                'Service': booking.service || '',
-                'Keluhan': booking.Keluhan || '',
-                'Phone': booking.phone || ''
-            }));
-            
-            const ws = XLSX.utils.json_to_sheet(exportData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Bookings");
-            
-            let filename = "chery_bookings_" + new Date().toISOString().split('T')[0];
-            if (hasActiveFilter) {
-                filename += "_filtered";
-            }
-            filename += ".xlsx";
-            
-            XLSX.writeFile(wb, filename);
-            
-            alert("Data diekspor sebagai Excel file.\n\nAnda bisa upload file ini ke Google Sheets:\n1. Buka Google Sheets\n2. File > Import > Upload\n3. Pilih file Excel yang baru didownload");
-        }
-
         window.adminLogout = function() {
             isAdminLoggedIn = false;
             localStorage.removeItem('adminLoggedIn');
@@ -2524,14 +2475,13 @@
             alert('Logout berhasil!');
         };
 
-        // Function to check if admin session is valid
         function checkAdminSession() {
             const loggedIn = localStorage.getItem('adminLoggedIn');
             const loginTime = localStorage.getItem('adminLoginTime');
             
             if (loggedIn === 'true' && loginTime) {
                 const currentTime = new Date().getTime();
-                const sessionDuration = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+                const sessionDuration = 24 * 60 * 60 * 1000;
                 
                 if (currentTime - parseInt(loginTime) < sessionDuration) {
                     return true;
@@ -2540,7 +2490,6 @@
             return false;
         }
 
-        // Function to activate admin panel
         function activateAdminPanel() {
             isAdminLoggedIn = true;
             document.querySelectorAll('.hero, .facilities, .booking, .about, .contact').forEach(el => el.style.display = 'none');
@@ -2608,24 +2557,20 @@
             }
         });
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             initSliderIndicators();
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('date').setAttribute('min', today);
             
-            // Check if admin was logged in before
             if (checkAdminSession()) {
                 activateAdminPanel();
             } else {
-                // Restore previous page state jika bukan admin
                 const currentPage = sessionStorage.getItem('currentPage');
                 if (currentPage === 'cekService') {
                     showCekService();
                 }
             }
 
-            // Custom dropdown interaktif untuk service
             const dropdown = document.querySelector("#serviceDropdown");
             const trigger = dropdown.querySelector(".custom-select-trigger");
             const options = dropdown.querySelectorAll(".custom-option");
@@ -2650,7 +2595,6 @@
                 if (!dropdown.contains(e.target)) dropdown.classList.remove("open");
             });
 
-            // Custom dropdown untuk edit modal
             const editDropdown = document.querySelector("#editServiceDropdown");
             const editTrigger = editDropdown.querySelector(".custom-select-trigger");
             const editOptions = editDropdown.querySelectorAll(".custom-option");
