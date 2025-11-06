@@ -1716,19 +1716,18 @@
     </footer>
 
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
-        import { getDatabase, ref, onValue, get, child, remove, set } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-analytics.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyBMJp4ktfl-bZaMDNuAhvDQPGRI15X1Jk4",
-            authDomain: "chery-booking-service-e1172.firebaseapp.com",
-            databaseURL: "https://chery-booking-service-e1172-default-rtdb.firebaseio.com/",
-            projectId: "chery-booking-service-e1172",
-            storageBucket: "chery-booking-service-e1172.firebasestorage.app",
-            messagingSenderId: "854480144755",
-            appId: "1:854480144755:web:1271daecf6f97b7efd1d06",
-            measurementId: "G-HHFPYJXPH0"
-        };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCpmHGOa04IXtzTSBs4k9r6hGl1skBAHUk",
+    authDomain: "chery-arta-booking-service.firebaseapp.com",
+    projectId: "chery-arta-booking-service",
+    storageBucket: "chery-arta-booking-service.firebasestorage.app",
+    messagingSenderId: "808532000775",
+    appId: "1:808532000775:web:048e11e538b6196e03aaa2",
+    measurementId: "G-WJ2XFET4PJ"
+  };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
