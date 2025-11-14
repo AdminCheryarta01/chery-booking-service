@@ -1845,6 +1845,167 @@
             }
         }
 
+        // Touch/Swipe functionality for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+let touchStartY = 0;
+let touchEndY = 0;
+
+function initTouchSupport() {
+    const sliderContainer = document.querySelector('.slider-container');
+    
+    // Touch events for mobile
+    sliderContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    sliderContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }, { passive: true });
+
+    // Mouse drag for desktop
+    let isDragging = false;
+    let startX = 0;
+
+    sliderContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX;
+        sliderContainer.style.cursor = 'grabbing';
+    });
+
+    sliderContainer.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+    });
+
+    sliderContainer.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        sliderContainer.style.cursor = 'grab';
+        
+        const endX = e.pageX;
+        const diff = startX - endX;
+
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                window.nextSlide();
+            } else {
+                window.previousSlide();
+            }
+        }
+    });
+
+    sliderContainer.addEventListener('mouseleave', () => {
+        if (isDragging) {
+            isDragging = false;
+            sliderContainer.style.cursor = 'grab';
+        }
+    });
+}
+
+function handleSwipe() {
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - touchEndY;
+
+    // Check if horizontal swipe is dominant
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        // Minimum swipe distance 50px
+        if (Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+                // Swipe left - next slide
+                window.nextSlide();
+            } else {
+                // Swipe right - previous slide
+                window.previousSlide();
+            }
+        }
+    }
+}
+
+// Touch/Swipe for Image Preview Modal
+let previewTouchStartX = 0;
+let previewTouchEndX = 0;
+let previewTouchStartY = 0;
+let previewTouchEndY = 0;
+
+function initImagePreviewSwipe() {
+    const previewModal = document.getElementById('imagePreviewModal');
+    const previewImg = document.getElementById('previewImage');
+    
+    // Touch events for mobile
+    previewImg.addEventListener('touchstart', (e) => {
+        previewTouchStartX = e.changedTouches[0].screenX;
+        previewTouchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    previewImg.addEventListener('touchend', (e) => {
+        previewTouchEndX = e.changedTouches[0].screenX;
+        previewTouchEndY = e.changedTouches[0].screenY;
+        handlePreviewSwipe();
+    }, { passive: true });
+
+    // Mouse drag for desktop
+    let isDragging = false;
+    let startX = 0;
+
+    previewImg.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.pageX;
+        previewImg.style.cursor = 'grabbing';
+    });
+
+    previewImg.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+    });
+
+    previewImg.addEventListener('mouseup', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        previewImg.style.cursor = 'grab';
+        
+        const endX = e.pageX;
+        const diff = startX - endX;
+
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                window.nextImage();
+            } else {
+                window.prevImage();
+            }
+        }
+    });
+
+    previewImg.addEventListener('mouseleave', () => {
+        if (isDragging) {
+            isDragging = false;
+            previewImg.style.cursor = 'grab';
+        }
+    });
+}
+
+function handlePreviewSwipe() {
+    const diffX = previewTouchStartX - previewTouchEndX;
+    const diffY = previewTouchStartY - previewTouchEndY;
+
+    // Check if horizontal swipe is dominant
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        // Minimum swipe distance 50px
+        if (Math.abs(diffX) > 50) {
+            if (diffX > 0) {
+                // Swipe left - next image
+                window.nextImage();
+            } else {
+                // Swipe right - previous image
+                window.prevImage();
+            }
+        }
+    }
+}
+
         setInterval(window.nextSlide, 5000);
 
         // Form handling
@@ -2559,6 +2720,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             initSliderIndicators();
+            initTouchSupport();
+            initImagePreviewSwipe();
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('date').setAttribute('min', today);
             
