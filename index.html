@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -46,6 +47,7 @@
             font-size: 0.85rem;
             font-weight: 600;
             display: inline-block;
+            white-space: nowrap;
         }
 
         .status-successful {
@@ -99,14 +101,14 @@
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 800;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
@@ -117,7 +119,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .nav-link {
@@ -886,37 +888,42 @@
         .admin-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
         .admin-header {
             display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+            gap: 1rem;
         }
 
         .admin-title {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--chery-dark);
         }
 
         .admin-actions {
             display: flex;
-            gap: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .admin-btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1rem;
             border: none;
             border-radius: 10px;
             font-weight: 500;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            white-space: nowrap;
         }
 
         .export-btn {
@@ -929,6 +936,13 @@
             color: white;
         }
 
+        /* MOBILE RESPONSIVE TABLE */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .table {
             width: 100%;
             border-collapse: collapse;
@@ -936,6 +950,7 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: var(--shadow-light);
+            min-width: 800px;
         }
 
         .table th {
@@ -944,11 +959,79 @@
             padding: 1rem;
             text-align: left;
             font-weight: 600;
+            white-space: nowrap;
         }
 
         .table td {
             padding: 1rem;
             border-bottom: 1px solid #e2e8f0;
+            word-wrap: break-word;
+        }
+
+        /* CARD VIEW FOR MOBILE */
+        .mobile-card-view {
+            display: none;
+        }
+
+        .booking-card-mobile {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: var(--shadow-light);
+        }
+
+        .card-header-mobile {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .card-name-mobile {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--chery-dark);
+        }
+
+        .card-date-mobile {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .card-body-mobile {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .card-row-mobile {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-label-mobile {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .card-value-mobile {
+            font-size: 0.9rem;
+            color: var(--chery-dark);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .card-actions-mobile {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
         }
 
         .action-btn {
@@ -961,6 +1044,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.25rem;
+            font-size: 0.875rem;
         }
 
         .edit-btn {
@@ -992,6 +1076,7 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
 
         .modal.show {
@@ -1080,7 +1165,7 @@
         .service-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
         .service-search {
@@ -1088,6 +1173,7 @@
             justify-content: center;
             margin-bottom: 2rem;
             gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .search-input {
@@ -1112,8 +1198,9 @@
         .service-actions {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1rem;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .service-btn {
@@ -1139,6 +1226,26 @@
             text-align: center;
         }
 
+        /* MEDIA QUERIES */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .nav-link {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -1150,18 +1257,161 @@
 
             .hero-container {
                 grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0 1rem;
             }
 
-            .about-container {
-                grid-template-columns: 1fr;
+            .hero {
+                padding-top: 4rem;
             }
 
             .hero-content h1 {
                 font-size: 2rem;
             }
 
-            .admin-filters > div:first-child {
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .about-container {
                 grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .booking-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .booking-title {
+                font-size: 1.8rem;
+            }
+
+            .facilities-slider {
+                padding: 0 1rem;
+            }
+
+            .facility-card {
+                height: 400px;
+            }
+
+            .facility-caption h3 {
+                font-size: 1.3rem;
+            }
+
+            .about-content h2 {
+                font-size: 2rem;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            /* HIDE TABLE, SHOW CARDS ON MOBILE */
+            .table-wrapper {
+                display: none !important;
+            }
+
+            .mobile-card-view {
+                display: block;
+            }
+
+            .admin-title {
+                font-size: 1.3rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .admin-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .admin-btn {
+                flex: 1;
+                min-width: 0;
+                justify-content: center;
+                font-size: 0.8rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .admin-btn i {
+                font-size: 0.9rem;
+            }
+
+            .admin-filters > div:first-child {
+                grid-template-columns: 1fr !important;
+            }
+
+            .image-preview-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .image-preview-prev {
+                left: 0.5rem;
+            }
+
+            .image-preview-next {
+                right: 0.5rem;
+            }
+
+            .image-preview-close {
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .plat-nomor-container {
+                gap: 3px;
+            }
+
+            .plat-input {
+                font-size: 14px;
+                padding: 0.75rem 0.3rem;
+            }
+
+            .plat-part-a { width: 50px; }
+            .plat-part-b { width: 70px; }
+            .plat-part-c { width: 60px; }
+
+            .separator {
+                font-size: 16px;
+            }
+
+            .hero-content h1 {
+                font-size: 1.6rem;
+            }
+
+            .booking-title {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-actions {
+                flex-direction: column;
+            }
+
+            .admin-btn {
+                width: 100%;
             }
         }
     </style>
@@ -1525,7 +1775,8 @@
                 </button>
             </div>
             
-            <div style="overflow-x: auto;">
+            <!-- Desktop Table View -->
+            <div class="table-wrapper">
                 <table class="table" id="serviceTable" style="display: none;">
                     <thead>
                         <tr>
@@ -1538,9 +1789,14 @@
                     </thead>
                     <tbody id="serviceTableBody"></tbody>
                 </table>
-                <div id="noDataMessage" style="text-align: center; padding: 2rem; color: #666;">
-                    Masukkan nomor plat untuk melihat status service
-                </div>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div class="mobile-card-view" id="serviceCardView" style="display: none;">
+            </div>
+
+            <div id="noDataMessage" style="text-align: center; padding: 2rem; color: #666;">
+                Masukkan nomor plat untuk melihat status service
             </div>
         </div>
     </section>
@@ -1556,7 +1812,7 @@
                     </button>
                     <button class="admin-btn" onclick="exportToGoogleSheets()" style="background: #0f9d58; color: white;">
                         <i class="fab fa-google"></i>
-                        Export to Sheets
+                        Export Sheets
                     </button>
                     <button class="admin-btn" onclick="refreshBookings()" style="background: #3b82f6; color: white;">
                         <i class="fas fa-sync-alt"></i>
@@ -1598,7 +1854,7 @@
                         <input type="date" id="filterDateTo" style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem;" onchange="applyFilters()">
                     </div>
                 </div>
-                <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+                <div style="margin-top: 1rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">
                     <button onclick="applyFilters()" style="padding: 0.75rem 1.5rem; background: var(--chery-blue); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">
                         <i class="fas fa-search"></i> Terapkan Filter
                     </button>
@@ -1608,7 +1864,8 @@
                 </div>
             </div>
 
-            <div style="overflow-x: auto;">
+            <!-- Desktop Table View -->
+            <div class="table-wrapper">
                 <table class="table">
                     <thead>
                         <tr>
@@ -1626,6 +1883,10 @@
                     </thead>
                     <tbody id="bookingListBody"></tbody>
                 </table>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div class="mobile-card-view" id="bookingCardView">
             </div>
         </div>
     </section>
@@ -1653,7 +1914,7 @@
                 </div>
                 <div>
                     <label class="modal-label">Plat Nomor</label>
-                    <input type="text" class="modal-input" id="editPlat" placeholder="B 1426 AZT" required>
+                    <input type="text" class="modal-input" id="editPlat" placeholder="B-1426-AZT" required>
                 </div>
                 <div>
                     <label class="modal-label">Telepon</label>
@@ -1741,7 +2002,6 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js';
         import { getDatabase, ref, onValue, get, child, remove, set } from 'https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js';
 
-        // FIREBASE CONFIGURATION - UPDATED
         const firebaseConfig = {
             apiKey: "AIzaSyCpmHGOa04IXtzTSBs4k9r6hGl1skBAHUk",
             authDomain: "chery-arta-booking-service.firebaseapp.com",
@@ -1755,9 +2015,6 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-
-        console.log('✅ Firebase initialized with new configuration');
-        console.log('📊 Database URL:', firebaseConfig.databaseURL);
 
         let allBookings = [];
         let filteredBookings = [];
@@ -1809,7 +2066,6 @@
             }
         ];
 
-        // Slider functionality
         function updateSlider() {
             const track = document.getElementById('sliderTrack');
             const indicators = document.querySelectorAll('.indicator');
@@ -1845,170 +2101,155 @@
             }
         }
 
-        // Touch/Swipe functionality for mobile
-let touchStartX = 0;
-let touchEndX = 0;
-let touchStartY = 0;
-let touchEndY = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
 
-function initTouchSupport() {
-    const sliderContainer = document.querySelector('.slider-container');
-    
-    // Touch events for mobile
-    sliderContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-    }, { passive: true });
+        function initTouchSupport() {
+            const sliderContainer = document.querySelector('.slider-container');
+            
+            sliderContainer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
 
-    sliderContainer.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        touchEndY = e.changedTouches[0].screenY;
-        handleSwipe();
-    }, { passive: true });
+            sliderContainer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            }, { passive: true });
 
-    // Mouse drag for desktop
-    let isDragging = false;
-    let startX = 0;
+            let isDragging = false;
+            let startX = 0;
 
-    sliderContainer.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.pageX;
-        sliderContainer.style.cursor = 'grabbing';
-    });
+            sliderContainer.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.pageX;
+                sliderContainer.style.cursor = 'grabbing';
+            });
 
-    sliderContainer.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-    });
+            sliderContainer.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+            });
 
-    sliderContainer.addEventListener('mouseup', (e) => {
-        if (!isDragging) return;
-        isDragging = false;
-        sliderContainer.style.cursor = 'grab';
-        
-        const endX = e.pageX;
-        const diff = startX - endX;
+            sliderContainer.addEventListener('mouseup', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                sliderContainer.style.cursor = 'grab';
+                
+                const endX = e.pageX;
+                const diff = startX - endX;
 
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                window.nextSlide();
-            } else {
-                window.previousSlide();
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        window.nextSlide();
+                    } else {
+                        window.previousSlide();
+                    }
+                }
+            });
+
+            sliderContainer.addEventListener('mouseleave', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    sliderContainer.style.cursor = 'grab';
+                }
+            });
+        }
+
+        function handleSwipe() {
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                        window.nextSlide();
+                    } else {
+                        window.previousSlide();
+                    }
+                }
             }
         }
-    });
 
-    sliderContainer.addEventListener('mouseleave', () => {
-        if (isDragging) {
-            isDragging = false;
-            sliderContainer.style.cursor = 'grab';
+        let previewTouchStartX = 0;
+        let previewTouchEndX = 0;
+        let previewTouchStartY = 0;
+        let previewTouchEndY = 0;
+
+        function initImagePreviewSwipe() {
+            const previewModal = document.getElementById('imagePreviewModal');
+            const previewImg = document.getElementById('previewImage');
+            
+            previewImg.addEventListener('touchstart', (e) => {
+                previewTouchStartX = e.changedTouches[0].screenX;
+                previewTouchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            previewImg.addEventListener('touchend', (e) => {
+                previewTouchEndX = e.changedTouches[0].screenX;
+                previewTouchEndY = e.changedTouches[0].screenY;
+                handlePreviewSwipe();
+            }, { passive: true });
+
+            let isDragging = false;
+            let startX = 0;
+
+            previewImg.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                startX = e.pageX;
+                previewImg.style.cursor = 'grabbing';
+            });
+
+            previewImg.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+            });
+
+            previewImg.addEventListener('mouseup', (e) => {
+                if (!isDragging) return;
+                isDragging = false;
+                previewImg.style.cursor = 'grab';
+                
+                const endX = e.pageX;
+                const diff = startX - endX;
+
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        window.nextImage();
+                    } else {
+                        window.prevImage();
+                    }
+                }
+            });
+
+            previewImg.addEventListener('mouseleave', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    previewImg.style.cursor = 'grab';
+                }
+            });
         }
-    });
-}
 
-function handleSwipe() {
-    const diffX = touchStartX - touchEndX;
-    const diffY = touchStartY - touchEndY;
+        function handlePreviewSwipe() {
+            const diffX = previewTouchStartX - previewTouchEndX;
+            const diffY = previewTouchStartY - previewTouchEndY;
 
-    // Check if horizontal swipe is dominant
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-        // Minimum swipe distance 50px
-        if (Math.abs(diffX) > 50) {
-            if (diffX > 0) {
-                // Swipe left - next slide
-                window.nextSlide();
-            } else {
-                // Swipe right - previous slide
-                window.previousSlide();
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > 50) {
+                    if (diffX > 0) {
+                        window.nextImage();
+                    } else {
+                        window.prevImage();
+                    }
+                }
             }
         }
-    }
-}
-
-// Touch/Swipe for Image Preview Modal
-let previewTouchStartX = 0;
-let previewTouchEndX = 0;
-let previewTouchStartY = 0;
-let previewTouchEndY = 0;
-
-function initImagePreviewSwipe() {
-    const previewModal = document.getElementById('imagePreviewModal');
-    const previewImg = document.getElementById('previewImage');
-    
-    // Touch events for mobile
-    previewImg.addEventListener('touchstart', (e) => {
-        previewTouchStartX = e.changedTouches[0].screenX;
-        previewTouchStartY = e.changedTouches[0].screenY;
-    }, { passive: true });
-
-    previewImg.addEventListener('touchend', (e) => {
-        previewTouchEndX = e.changedTouches[0].screenX;
-        previewTouchEndY = e.changedTouches[0].screenY;
-        handlePreviewSwipe();
-    }, { passive: true });
-
-    // Mouse drag for desktop
-    let isDragging = false;
-    let startX = 0;
-
-    previewImg.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        startX = e.pageX;
-        previewImg.style.cursor = 'grabbing';
-    });
-
-    previewImg.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        e.preventDefault();
-    });
-
-    previewImg.addEventListener('mouseup', (e) => {
-        if (!isDragging) return;
-        isDragging = false;
-        previewImg.style.cursor = 'grab';
-        
-        const endX = e.pageX;
-        const diff = startX - endX;
-
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                window.nextImage();
-            } else {
-                window.prevImage();
-            }
-        }
-    });
-
-    previewImg.addEventListener('mouseleave', () => {
-        if (isDragging) {
-            isDragging = false;
-            previewImg.style.cursor = 'grab';
-        }
-    });
-}
-
-function handlePreviewSwipe() {
-    const diffX = previewTouchStartX - previewTouchEndX;
-    const diffY = previewTouchStartY - previewTouchEndY;
-
-    // Check if horizontal swipe is dominant
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-        // Minimum swipe distance 50px
-        if (Math.abs(diffX) > 50) {
-            if (diffX > 0) {
-                // Swipe left - next image
-                window.nextImage();
-            } else {
-                // Swipe right - previous image
-                window.prevImage();
-            }
-        }
-    }
-}
 
         setInterval(window.nextSlide, 5000);
 
-        // Form handling
         window.handleBooking = async function(event) {
             event.preventDefault();
 
@@ -2282,6 +2523,7 @@ function handlePreviewSwipe() {
             const searchPlat = document.getElementById('searchPlat').value.trim().toUpperCase();
             const serviceTableBody = document.getElementById('serviceTableBody');
             const serviceTable = document.getElementById('serviceTable');
+            const serviceCardView = document.getElementById('serviceCardView');
             const noDataMessage = document.getElementById('noDataMessage');
             
             if (!searchPlat) {
@@ -2302,7 +2544,7 @@ function handlePreviewSwipe() {
                     });
                 }
                 
-                displaySearchResults(bookings, serviceTableBody, serviceTable, noDataMessage);
+                displaySearchResults(bookings, serviceTableBody, serviceTable, serviceCardView, noDataMessage);
             } catch (error) {
                 console.error("Error searching bookings:", error);
                 alert("Terjadi kesalahan saat mencari data booking");
@@ -2337,9 +2579,10 @@ function handlePreviewSwipe() {
                 
                 const serviceTableBody = document.getElementById('serviceTableBody');
                 const serviceTable = document.getElementById('serviceTable');
+                const serviceCardView = document.getElementById('serviceCardView');
                 const noDataMessage = document.getElementById('noDataMessage');
                 
-                displaySearchResults(bookings, serviceTableBody, serviceTable, noDataMessage);
+                displaySearchResults(bookings, serviceTableBody, serviceTable, serviceCardView, noDataMessage);
                 
                 setTimeout(() => {
                     icon.style.animation = '';
@@ -2354,22 +2597,23 @@ function handlePreviewSwipe() {
             }
         };
 
-        function displaySearchResults(bookings, serviceTableBody, serviceTable, noDataMessage) {
+        function displaySearchResults(bookings, serviceTableBody, serviceTable, serviceCardView, noDataMessage) {
             serviceTableBody.innerHTML = '';
+            serviceCardView.innerHTML = '';
             
             if (bookings.length === 0) {
                 serviceTable.style.display = 'none';
+                serviceCardView.style.display = 'none';
                 noDataMessage.textContent = 'Tidak ada data booking dengan nomor plat tersebut';
                 noDataMessage.style.display = 'block';
                 return;
             }
             
             serviceTable.style.display = 'table';
+            serviceCardView.style.display = 'block';
             noDataMessage.style.display = 'none';
             
             bookings.forEach(booking => {
-                const row = document.createElement('tr');
-                
                 let statusClass = 'status-successful';
                 const status = booking.status || 'Successful';
                 
@@ -2378,6 +2622,8 @@ function handlePreviewSwipe() {
                 else if (status === 'In Progress') statusClass = 'status-in-progress';
                 else if (status === 'Completed') statusClass = 'status-completed';
                 
+                // Desktop Table Row
+                const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${booking.date || ''}</td>
                     <td>${booking.time || ''}</td>
@@ -2386,6 +2632,26 @@ function handlePreviewSwipe() {
                     <td><span class="status-badge ${statusClass}">${status}</span></td>
                 `;
                 serviceTableBody.appendChild(row);
+
+                // Mobile Card View
+                const card = document.createElement('div');
+                card.className = 'booking-card-mobile';
+                card.innerHTML = `
+                    <div class="card-header-mobile">
+                        <div>
+                            <div class="card-name-mobile">${booking.name || ''}</div>
+                            <div class="card-date-mobile">${booking.date || ''} • ${booking.time || ''}</div>
+                        </div>
+                        <span class="status-badge ${statusClass}">${status}</span>
+                    </div>
+                    <div class="card-body-mobile">
+                        <div class="card-row-mobile">
+                            <span class="card-label-mobile">Plat Nomor</span>
+                            <span class="card-value-mobile">${booking.Plat_Nomor || ''}</span>
+                        </div>
+                    </div>
+                `;
+                serviceCardView.appendChild(card);
             });
         }
 
@@ -2442,7 +2708,9 @@ function handlePreviewSwipe() {
 
         function renderBookingsTable() {
             const tbody = document.getElementById('bookingListBody');
+            const cardView = document.getElementById('bookingCardView');
             tbody.innerHTML = "";
+            cardView.innerHTML = "";
             
             const bookingsToDisplay = filteredBookings.length > 0 || 
                 document.getElementById('filterSearch')?.value || 
@@ -2454,12 +2722,11 @@ function handlePreviewSwipe() {
             
             if (bookingsToDisplay.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 2rem;">Tidak ada data booking yang sesuai filter.</td></tr>';
+                cardView.innerHTML = '<div style="text-align: center; padding: 2rem; color: #666;">Tidak ada data booking yang sesuai filter.</div>';
                 return;
             }
 
             bookingsToDisplay.forEach((booking) => {
-                const row = document.createElement("tr");
-                
                 let statusClass = 'status-successful';
                 const status = booking.status || 'Successful';
                 
@@ -2468,17 +2735,19 @@ function handlePreviewSwipe() {
                 else if (status === 'In Progress') statusClass = 'status-in-progress';
                 else if (status === 'Completed') statusClass = 'status-completed';
                 
+                // Desktop Table Row
+                const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${booking.date || ''}</td>
                     <td>${booking.time || ''}</td>
                     <td>${booking.name || ''}</td>
                     <td>${booking.model || ''}</td>
                     <td>${booking.Plat_Nomor || ''}</td>
-                    <td>${booking.service || ''}</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${booking.service || ''}</td>
                     <td>${booking.Keluhan || "None"}</td>
                     <td>${booking.phone || ''}</td>
                     <td><span class="status-badge ${statusClass}">${status}</span></td>
-                    <td>
+                    <td style="white-space: nowrap;">
                         <button onclick='editBooking("${booking.id}", ${JSON.stringify(booking).replace(/'/g, "&apos;")})' class="action-btn edit-btn">
                             <i class="fas fa-edit"></i> Edit
                         </button>
@@ -2488,6 +2757,52 @@ function handlePreviewSwipe() {
                     </td>
                 `;
                 tbody.appendChild(row);
+
+                // Mobile Card View
+                const card = document.createElement('div');
+                card.className = 'booking-card-mobile';
+                card.innerHTML = `
+                    <div class="card-header-mobile">
+                        <div>
+                            <div class="card-name-mobile">${booking.name || ''}</div>
+                            <div class="card-date-mobile">${booking.date || ''} • ${booking.time || ''}</div>
+                        </div>
+                        <span class="status-badge ${statusClass}">${status}</span>
+                    </div>
+                    <div class="card-body-mobile">
+                        <div class="card-row-mobile">
+                            <span class="card-label-mobile">Model</span>
+                            <span class="card-value-mobile">${booking.model || ''}</span>
+                        </div>
+                        <div class="card-row-mobile">
+                            <span class="card-label-mobile">Plat Nomor</span>
+                            <span class="card-value-mobile">${booking.Plat_Nomor || ''}</span>
+                        </div>
+                        <div class="card-row-mobile">
+                            <span class="card-label-mobile">Service</span>
+                            <span class="card-value-mobile" style="font-size: 0.8rem; max-width: 60%; text-align: right;">${booking.service || ''}</span>
+                        </div>
+                        <div class="card-row-mobile">
+                            <span class="card-label-mobile">Phone</span>
+                            <span class="card-value-mobile">${booking.phone || ''}</span>
+                        </div>
+                        ${booking.Keluhan ? `
+                        <div class="card-row-mobile" style="flex-direction: column; align-items: flex-start;">
+                            <span class="card-label-mobile">Keluhan</span>
+                            <span class="card-value-mobile" style="text-align: left; font-weight: 400; margin-top: 0.25rem;">${booking.Keluhan}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div class="card-actions-mobile">
+                        <button onclick='editBooking("${booking.id}", ${JSON.stringify(booking).replace(/'/g, "&apos;")})' class="action-btn edit-btn" style="flex: 1;">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button onclick="deleteBooking('${booking.id}')" class="action-btn delete-btn" style="flex: 1;">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                `;
+                cardView.appendChild(card);
             });
         }
 
@@ -2785,3 +3100,4 @@ function handlePreviewSwipe() {
     </script>
 </body>
 </html>
+            
