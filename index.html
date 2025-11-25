@@ -2718,14 +2718,21 @@
                 document.getElementById('filterDateTo')?.value
                 ? filteredBookings 
                 : allBookings;
+
+                // Sort bookings by ID (timestamp) in descending order - newest first
+            const sortedBookings = [...bookingsToDisplay].sort((a, b) => {
+                const idA = parseInt(a.id) || 0;
+                const idB = parseInt(b.id) || 0;
+                return idB - idA; // Descending order
+            });
             
-            if (bookingsToDisplay.length === 0) {
+            if (sortedBookings.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 2rem;">Tidak ada data booking yang sesuai filter.</td></tr>';
                 cardView.innerHTML = '<div style="text-align: center; padding: 2rem; color: #666;">Tidak ada data booking yang sesuai filter.</div>';
                 return;
             }
 
-            bookingsToDisplay.forEach((booking) => {
+            sortedBookings.forEach((booking) => {
                 let statusClass = 'status-successful';
                 const status = booking.status || 'Successful';
                 
@@ -3099,4 +3106,3 @@
     </script>
 </body>
 </html>
-            
