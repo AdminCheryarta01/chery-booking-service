@@ -2718,8 +2718,8 @@
                 document.getElementById('filterDateTo')?.value
                 ? filteredBookings 
                 : allBookings;
-            
-            // Sort bookings by ID (timestamp) in descending order - newest first
+
+// Sort bookings by ID (timestamp) in descending order - newest first
             const sortedBookings = [...bookingsToDisplay].sort((a, b) => {
     const idA = parseInt(a.id) || 0;
     const idB = parseInt(b.id) || 0;
@@ -2732,7 +2732,6 @@
                 return;
             }
 
-            
 
             sortedBookings.forEach((booking) => {
                 let statusClass = 'status-successful';
