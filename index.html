@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -2278,11 +2279,11 @@
 
             if (daysDifference < 1) {
                 alert('⚠️ Booking Tidak Diizinkan!\n\nBooking wajib dilakukan minimal H-1 (satu hari sebelum hari pelaksanaan).\n\nContoh:\n- Hari ini: ' + today.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + '\n- Booking paling cepat untuk: ' + new Date(today.getTime() + 24*60*60*1000).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + '\n\nSilakan pilih tanggal yang lebih jauh.');
-                return false;
+                return false;}
 
             if (!/^[A-Z]{1,2}$/.test(plat_kode)) {
                 alert('Kode wilayah harus berupa 1-2 huruf (contoh: B atau AB)');
-                return false;}
+                return false;
             }
 
             if (!/^[0-9]{1,4}$/.test(plat_angka)) {
@@ -2730,19 +2731,18 @@
                 ? filteredBookings 
                 : allBookings;
 
-// Sort bookings by ID (timestamp) in descending order - newest first
+                // Sort bookings by ID (timestamp) in descending order - newest first
             const sortedBookings = [...bookingsToDisplay].sort((a, b) => {
-    const idA = parseInt(a.id) || 0;
-    const idB = parseInt(b.id) || 0;
-    return idB - idA; // Terbaru di atas
-});
-
-                if (sortedBookings.length === 0) {
+                const idA = parseInt(a.id) || 0;
+                const idB = parseInt(b.id) || 0;
+                return idB - idA; // Descending order
+            });
+            
+            if (sortedBookings.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 2rem;">Tidak ada data booking yang sesuai filter.</td></tr>';
                 cardView.innerHTML = '<div style="text-align: center; padding: 2rem; color: #666;">Tidak ada data booking yang sesuai filter.</div>';
                 return;
             }
-
 
             sortedBookings.forEach((booking) => {
                 let statusClass = 'status-successful';
@@ -3055,8 +3055,10 @@
             initSliderIndicators();
             initTouchSupport();
             initImagePreviewSwipe();
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('date').setAttribute('min', today);
+            const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+const minDate = tomorrow.toISOString().split('T')[0];
+document.getElementById('date').setAttribute('min', minDate);
             
             if (checkAdminSession()) {
                 activateAdminPanel();
@@ -3118,3 +3120,4 @@
     </script>
 </body>
 </html>
+            
