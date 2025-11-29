@@ -3118,6 +3118,23 @@ document.getElementById('date').setAttribute('min', minDate);
             });
         });
     </script>
+    <script>
+    const dateInput = document.getElementById("date");
+
+    // Set min date = hari ini (opsional tapi disarankan)
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.min = today;
+
+    dateInput.addEventListener("input", function () {
+        const selectedDate = new Date(this.value);
+        const day = selectedDate.getDay(); // 0 = Minggu
+
+        if (day === 0) {
+            alert("Booking tidak tersedia pada hari Minggu. Silakan pilih hari lain.");
+            this.value = ""; // reset tanggal
+        }
+    });
+</script>
 </body>
 </html>
             
